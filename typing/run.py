@@ -63,6 +63,7 @@ class MyForm(Ui_Form, QtWidgets.QWidget):
             text = self.text_list[random.randint(0, len(self.text_list))]
             if text not in self.used_list:
                 self.used_list.append(text)
+                self.text = text
                 self.textBrowser.setText(text)
                 self.textEdit.clear()
                 self.hide_label()
