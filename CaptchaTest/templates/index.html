@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/js/jquery-3.1.1.js"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div style="font-size: medium">
+        <label>请输入下面图片中的验证码：</label><br>
+        <img src="" id="captcha">
+        <a href="javascript:void(0)" onclick="Change()">看不清楚，换一张</a><br>
+        <input id="your_in" placeholder="Input your answer">
+        <button onclick="Check()">确认</button>
+    </div>
+    <script>
+        function Change() {
+            $.ajax({
+                url: '{{ url_for('get_captcha') }}',
+                async: true,
+                type: "GET",
+                success: function (data) {
+                    document.getElementById("captcha").src = data;
+                }
+            })
+        }
+    </script>
+    <script>
+        function Check() {
+            var img = document.getElementById("captcha").src;
+            var img_path = img.replace("\\", "/").split("/");
+            var img_name = img_path[img_path.length - 1];
+            img_name = img_name.split(".")[0];
+            var your_in = document.getElementById("your_in").value;
+            if(img_name.toLowerCase() == your_in.toLowerCase()){
+                alert("验证成功！");
+            }
+            else {
+                alert("验证错误！")
+            }
+        }
+        window.onload = Change();
+    </script>
+</body>
+</html>
