@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Flask Pagination</title>
+    <style type="text/css">
+        .pagination ul {
+            list-style: none;
+            display: flex
+        }
+        .pagination ul li {
+            margin-left: 10px;
+        }
+        table {
+            margin-left: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>NAME</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in data %}
+                <tr>
+                    <td>{{ i.stu_id }}</td>
+                    <td>{{ i.stu_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {{ paginate.links }}
+    </div>
+</body>
+</html>

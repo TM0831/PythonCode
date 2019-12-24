@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="../static/layui.js"></script>
+    <link rel="stylesheet" href="../static/css/layui.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <style>
+        table {
+            font-size: medium;
+            margin-left: 50px;
+            padding: 10px;
+            width: 400px;
+            text-align: center;
+        }
+    </style>
+    <title>layPage Test</title>
+</head>
+<body>
+<div>
+    <table>
+        <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>NAME</th>
+        </tr>
+        </thead>
+        <tbody id="demoBody"></tbody>
+    </table>
+    <div id="demo"></div>
+</div>
+</body>
+<script>
+    $(function () {
+        initPage();
+    });
+
+    function initPage(pageConf) {
+        if (!pageConf) {
+            pageConf = {};
+            pageConf.pageSize = 10;
+            pageConf.currentPage = 1;
+        }
+        $.post("http://127.0.0.1:5000/get_data", pageConf, function (data) {
+            layui.use(['laypage', 'layer'], function () {
+                var page = layui.laypage;
+                page.render({
+                    elem: 'demo',
+                    count: data.count,
+                    curr: pageConf.currentPage,
+                    limit: pageConf.pageSize,
+                    first: "首页",
+                    last: "尾页",
+                    layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+                    jump: function (obj, first) {
+                        if (!first) {
+                            pageConf.currentPage = obj.curr;
+                            pageConf.pageSize = obj.limit;
+                            initPage(pageConf);
+                        }
+                    }
+                });
+                fillTable(data["data"], (pageConf.currentPage - 1) * pageConf.pageSize); //页面填充
+            })
+        });
+    }
+
+    //填充表格数据
+    function fillTable(data, num) {
+        $("#demoBody").html('');
+        $.each(data, function (index, obj) {
+            // id 很多时候并不是连续的，如果为了显示比较连续的记录数，可以这样根据当前页和每页条数动态的计算记录序号
+            index = index + num + 1;
+            var info = '';
+            info += '<tr>';
+            info += '<td>' + index + '</td>';
+            info += '<td>' + obj.id + '</td>';
+            info += '<td>' + obj.name + '</td>';
+            info += '</tr>';
+            $("#demoBody").append(info);
+        });
+    }
+</script>
+</html>
