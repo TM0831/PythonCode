@@ -2,6 +2,8 @@
 Do something with python.
 * CaptchaTest  
 用Python+Flask制作的一个简易的验证码系统，实现了生成、显示和验证验证码的功能。
+* ImageBox
+用PyQt5实现一个图片查看器，实现了打开图片、拖动图片、放大和缩小图片等功能。
 * PaginateTest  
 使用Flask开发的分页Demo，分别使用扩展库flask-pagination和前端框架layui实现分页功能。
 * python_ls  
